@@ -1,6 +1,9 @@
 <?php
 
+
 namespace Entities;
+
+use PHPMailer\PHPMailer\Exception;
 
 class TelegraphText
 {
@@ -38,7 +41,19 @@ class TelegraphText
     public function editText(string $title, string $text): void
     {
         $this->title = $title;
-        $this->text = $text;
+        if (strlen($text) > 0 && strlen($text) < 500) {
+            $this->text = $text;
+        } else {
+            throw new Exception('<html>
+            <div style="margin: 0 auto;
+                    padding: 15px;
+                    width: 300px;
+                    color: white;
+                    background-color: pink;">
+                <h1>Что то пошло не так</h1>
+            </div>
+            </html>');
+        }
     }
 
     public function getTitle(): string

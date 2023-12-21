@@ -8,12 +8,16 @@ use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\SMTP;
 use PHPMailer\PHPMailer\Exception;
 
-
 ?>
 
-
-
 <?php
+
+function exception_handler(Throwable $exception)
+{
+    echo $exception->getMessage();
+}
+
+set_exception_handler('exception_handler');
 
 $author = "";
 $email = "";
@@ -50,10 +54,10 @@ try {
     $mail->AltBody = 'This is the body in plain text for non-HTML mail clients';
 
     $mail->send();
-    $ok[] = 'Все хорошо';
+    $ok = 'Все хорошо';
 } catch (Exception $e) {
     if ($author !== '' && $email !== '' && $text !== '') {
-        $error[] = 'Все хуево';
+        $error = 'Все хуево';
     }
 }
 
@@ -113,9 +117,8 @@ try {
 
     if (!empty($ok)) : ?>
         <div class="green">
-            <?php array_map(function ($messege) {
-                echo '<div>' . $messege . '</div>';
-            }, $ok);
+            <?php
+            echo '<div>' . $ok . '</div>';
 
             ?>
         </div>
@@ -125,9 +128,9 @@ try {
     <?php
     if (!empty($error)) : ?>
         <div class="red">
-            <?php array_map(function ($messege) {
-                echo '<div>' . $messege . '</div>';
-            }, $error);
+            <?php
+            echo '<div>' . $error . '</div>';
+
             ?>
         </div>
     <?php
